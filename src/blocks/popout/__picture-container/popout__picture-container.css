@@ -1,0 +1,8 @@
+.popout__picture-container{
+    -ms-grid-column-align: end;
+        justify-self: end;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    z-index: 4;
+}

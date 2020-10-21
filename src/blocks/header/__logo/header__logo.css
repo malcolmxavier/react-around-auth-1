@@ -1,0 +1,19 @@
+.header__logo{
+    margin: 41px 0;
+    width: 173px;
+    height: 33px;
+}
+
+.header__logo:hover{
+   filter: brightness(0) saturate(100%);
+    
+}
+
+@media screen and (max-width: 450px){
+    .header__logo{
+        margin: 28px 27px;
+        width: 126px;
+        height: 24px;
+        
+    }
+}

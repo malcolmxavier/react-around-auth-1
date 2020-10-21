@@ -1,0 +1,21 @@
+@import url(__container/gallery__container.css);
+@import url(__grid/gallery__grid.css);
+@import url(__group/gallery__group.css);
+@import url(__image/gallery__image.css);
+@import url(__like-button/gallery__like-button.css);
+@import url(__like-button/_active/gallery__like-button_active.css);
+@import url(__text/gallery__text.css);
+@import url(__trash-button/gallery__trash-button.css);
+@import url(__like-container/gallery__like-container.css);
+@import url(__like-count/gallery__like-count.css);
+
+.gallery{
+    margin: 0;
+    margin-top: 35px;
+}
+
+@media screen and (max-width:800px){
+    .gallery{
+        margin-top: 0;
+    }
+}

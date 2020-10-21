@@ -1,0 +1,32 @@
+.profile__edit-button{
+    display: inline-block;
+    -ms-flex-item-align: center;
+        -ms-grid-row-align: center;
+        align-self: center;
+    margin: 0;
+    margin-left: 29px;
+    padding: 0;
+    text-decoration: none;
+    background: #000000;
+    cursor: pointer;
+    background-image: url(../../../images/edit-pencil.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 24px;
+    width: 24px;
+    border: 1px solid #FFFFFF;
+    -webkit-transition: .5s opacity ease-in-out;
+    -o-transition: .5s opacity ease-in-out;
+    transition: .5s opacity ease-in-out;
+}
+
+.profile__edit-button:hover{
+    opacity: .6;
+}
+@media screen and (max-width:450px){
+    .profile__edit-button{
+        height: 18px;
+        width: 18px;
+        margin-left: 12px;
+    }
+}

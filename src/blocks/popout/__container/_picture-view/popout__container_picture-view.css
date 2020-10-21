@@ -1,0 +1,4 @@
+.popout__container_picture-view::after{
+        content: "";
+    opacity: .9;
+}

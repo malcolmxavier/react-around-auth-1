@@ -1,0 +1,30 @@
+.popout__button{
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    background: #000000;
+    border-radius: 2px;
+    width: 358px;
+    height: 50.15px;
+    color: #ffffff;
+    font-weight: normal;
+font-size: 18px;
+line-height: 22px;
+text-align: center;
+    -ms-flex-item-align: center;
+        -ms-grid-row-align: center;
+        align-self: center;
+    margin-bottom: 36px;
+    opacity: 1;
+    transition: all .3s ease-in-out;
+}
+.popout__button:hover{
+    opacity: .8;
+}
+@media screen and (max-width: 500px){
+    .popout__button{
+        width: 200px;
+        font-size: 14px;
+        line-height: 17px;
+    }
+}

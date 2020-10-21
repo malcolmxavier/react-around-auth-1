@@ -1,0 +1,12 @@
+.popout__form-input-error{
+    opacity: 0;
+    color: #FF0000;
+    font-style:normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    margin: -24px 36px 0;
+    padding-top: 0;
+    transition: opacity .3s ease-in;
+ 
+}

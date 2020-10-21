@@ -1,0 +1,19 @@
+.profile__picture{
+    position: relative;
+    z-index: 2;
+    border-radius: 100%;
+    width: 122px;
+    height: 122px;
+    padding: 0;
+    margin-right: 32px;
+}
+.profile__picture:hover{
+    opacity: 0.3;
+}
+@media screen and (max-width:800px){
+    .profile__picture{
+        -ms-flex-item-align: center;
+            -ms-grid-row-align: center;
+            align-self: center;
+    }
+}

@@ -1,0 +1,31 @@
+.popout__form{
+    background: #FFFFFF;
+    -webkit-box-shadow: 0 0 25px rgba(0, 0, 0, .15);
+            box-shadow: 0 0 25px rgba(0, 0, 0, .15);
+    border-radius: 10px;
+    height: 330px;
+    width: 430px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    justify-self: end;
+    z-index: 10;
+    position: relative;
+}
+.popout_delete__form{
+    height: 181px;
+
+}
+@media screen and (max-width: 500px){
+    .popout__form{
+        width: 240px;
+        height: 258px;
+    }
+}

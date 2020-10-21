@@ -1,0 +1,7 @@
+.popout__picture{
+    max-height: 75vh;
+    max-width: 75vw;
+     -ms-flex-item-align: center;
+        -ms-grid-row-align: center;
+        align-self: center;
+}

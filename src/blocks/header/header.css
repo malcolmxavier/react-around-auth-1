@@ -1,0 +1,10 @@
+@import url(__logo/header__logo.css);
+@import url(__text/header__text.css);
+@import url(__content/header__content.css);
+.header{
+    border-bottom: 1px solid rgba(84, 84, 84, .7);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+}

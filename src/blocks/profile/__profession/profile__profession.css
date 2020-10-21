@@ -1,0 +1,35 @@
+.profile__profession{
+    margin: 0;
+    -ms-grid-column: 2;
+    grid-column: 2;
+    -ms-grid-row: 2;
+    grid-row: 2;
+    -ms-grid-column-align: start;
+        justify-self: start;
+    color: #FFFFFF;
+    -ms-grid-row-align: start;
+        align-self: start;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+    max-width: 400px;
+    -o-text-overflow: ellipsis;
+       text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+@media screen and (max-width:800px){
+    .profile__profession{
+        -ms-flex-item-align: center;
+            -ms-grid-row-align: center;
+            align-self: center;
+        font-size: 14px;
+        line-height: 17px;
+    }   
+}
+@media screen and (max-width:400px){
+    .profile__profession{
+        max-width: 250px;
+    }
+}

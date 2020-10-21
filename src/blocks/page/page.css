@@ -1,0 +1,9 @@
+@import url(__content/page__content.css);
+.page{
+    background-color: #000000;
+    height: 100vh;
+    font-family: "Inter", "Arial", sans-serif;
+    font-style:normal;
+    margin: 0 auto;
+    position: relative;
+}

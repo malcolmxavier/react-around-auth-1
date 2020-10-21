@@ -1,0 +1,4 @@
+.gallery__like-button_active{
+    background-image: url(../../../../images/heart-filled.svg);
+    border: none;
+}
