@@ -1,4 +1,3 @@
-import e from 'express';
 import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import Header from './Header';
@@ -13,7 +12,7 @@ function Register(props) {
   function handlePasswordChange(e) {
     setPassword(e.target.value)
   }
-  function handleSubmit() {
+  function handleSubmit(e) {
     e.preventDefault();
     auth.register(password, email)
       .then((res) => {
