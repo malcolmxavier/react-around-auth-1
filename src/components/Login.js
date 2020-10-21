@@ -5,6 +5,7 @@ import * as auth from '../auth';
 function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   function handleEmailChange(e) {
     setEmail(e.target.value)
   }
