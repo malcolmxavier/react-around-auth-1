@@ -17,6 +17,7 @@ function Login(props) {
     auth.authorize(password, email)
       .then((res) => {
         if (res) {
+          props.handleLogin();
           props.history.push('/')
         }
       })

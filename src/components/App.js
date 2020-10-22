@@ -126,6 +126,8 @@ function App() {
     setIsSuccessful(state)
     setIsInfoTooltipOpen(true)
     setLoggedIn(state)
+  }
+  function handleLogin() {
     if (localStorage.getItem('jwt')) {
       auth.checkToken(jwt)
         .then((res) => {
@@ -133,6 +135,7 @@ function App() {
         })
         .catch((err) => console.log(err));
     }
+
   }
 
   return (
@@ -157,11 +160,11 @@ function App() {
               handleCardLike={handleCardLike}
               handleCardDelete={handleCardDelete} />
             <Route path="/signin">
-              <Login  />
+              <Login handleLogin={handleLogin} />
             </Route>
 
             <Route path="/signup">
-              <Register handleSignup={handleSignup}/>
+              <Register handleSignup={handleSignup} />
             </Route>
           </Switch>
           <Footer />
