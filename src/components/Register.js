@@ -16,10 +16,12 @@ function Register(props) {
     e.preventDefault();
     auth.register(password, email)
       .then((res) => {
-        if (res) {
-          props.history.push('/signin');
+        console.log(res)
+        if(res.error){
+          props.handleSignup(false)
         } else {
-          console.log('Something went wrong!');
+          props.handleSignup(true)
+          props.history.push('/signin');
         }
       })
       .catch((err) => console.log(err));

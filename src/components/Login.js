@@ -17,10 +17,7 @@ function Login(props) {
     auth.authorize(password, email)
       .then((res) => {
         if (res) {
-          props.handleLogin(true)
           props.history.push('/')
-        } else{
-          props.handleLogin(false)
         }
       })
       .catch((err) => console.log(err));

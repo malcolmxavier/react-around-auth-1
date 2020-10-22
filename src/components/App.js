@@ -122,7 +122,7 @@ function App() {
     setIsImagePopupOpen(false);
     setIsInfoTooltipOpen(false);
   };
-  function handleLogin(state) {
+  function handleSignup(state) {
     setIsSuccessful(state)
     setIsInfoTooltipOpen(true)
     setLoggedIn(state)
@@ -157,11 +157,11 @@ function App() {
               handleCardLike={handleCardLike}
               handleCardDelete={handleCardDelete} />
             <Route path="/signin">
-              <Login handleLogin={handleLogin} />
+              <Login  />
             </Route>
 
             <Route path="/signup">
-              <Register />
+              <Register handleSignup={handleSignup}/>
             </Route>
           </Switch>
           <Footer />
