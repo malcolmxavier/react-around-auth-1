@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Route, Switch, useHistory
+  Route, Switch, useHistory, Redirect
 } from 'react-router-dom';
 import Footer from './Footer.js';
 import Main from './Main.js';
@@ -165,6 +165,9 @@ function App() {
 
             <Route path="/signup">
               <Register handleSignup={handleSignup} />
+            </Route>
+            <Route path="/*">
+              <Redirect to="/signin"/>
             </Route>
           </Switch>
           <Footer />
