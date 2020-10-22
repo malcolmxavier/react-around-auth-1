@@ -41,19 +41,15 @@ function App() {
     api.getCardList()
       .then((res) => setCards(res))
       .catch((err) => console.log(err));
-handleCheckToken()
-  }, [cards]);
 
-  function handleCheckToken(){
     auth.checkToken(jwt)
-    .then((res) => {
-      setUserEmail(res.data.email);
-      setLoggedIn(true);
-    })
-    .then(() => history.push('/'))
-    .catch((err) => console.log(err));
-
-  }
+      .then((res) => {
+        setUserEmail(res.data.email);
+        setLoggedIn(true);
+      })
+      .then(() => history.push('/'))
+      .catch((err) => console.log(err));
+  }, [cards]);
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -140,43 +136,43 @@ handleCheckToken()
   }
 
   return (
-      <CurrentUserContext.Provider value={currentUser}>
-        <div className="page">
-          <div className="page__content">
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="page">
+        <div className="page__content">
 
-            <Switch>
-              <ProtectedRoute exact path='/'
-                loggedIn={loggedIn}
-                component={Main}
-                userEmail={userEmail}
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                onCardClick={(data) => handleCardClick(data)}
-                onClose={closeAllPopups}
-                onCardLike={handleCardLike}
-                onCardDelete={handleCardDelete}
-                cards={cards}
-                handleCardClick={handleCardClick}
-                handleCardLike={handleCardLike}
-                handleCardDelete={handleCardDelete} />
-              <Route path="/signin">
-                <Login handleLogin={handleLogin} />
-              </Route>
+          <Switch>
+            <ProtectedRoute exact path='/'
+              loggedIn={loggedIn}
+              component={Main}
+              userEmail={userEmail}
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={(data) => handleCardClick(data)}
+              onClose={closeAllPopups}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
+              cards={cards}
+              handleCardClick={handleCardClick}
+              handleCardLike={handleCardLike}
+              handleCardDelete={handleCardDelete} />
+            <Route path="/signin">
+              <Login handleLogin={handleLogin} />
+            </Route>
 
-              <Route path="/signup">
-                <Register />
-              </Route>
-            </Switch>
-            <Footer />
-            <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfileOpen} onClose={closeAllPopups} />
-            <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarOpen} onClose={closeAllPopups} />
-            <AddPlacePopup onAddPlace={handleAddPlace} isOpen={isAddPlaceOpen} onClose={closeAllPopups} />
-            <ImagePopup isOpen={isImagePopupOpen} name={selectedCardName} link={selectedCardLink} onClose={closeAllPopups} />
-            <InfoTooltip valid={isSuccessful} isOpen={isInfoTooltipOpen} onClose={closeAllPopups} />
-          </div>
+            <Route path="/signup">
+              <Register />
+            </Route>
+          </Switch>
+          <Footer />
+          <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfileOpen} onClose={closeAllPopups} />
+          <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarOpen} onClose={closeAllPopups} />
+          <AddPlacePopup onAddPlace={handleAddPlace} isOpen={isAddPlaceOpen} onClose={closeAllPopups} />
+          <ImagePopup isOpen={isImagePopupOpen} name={selectedCardName} link={selectedCardLink} onClose={closeAllPopups} />
+          <InfoTooltip valid={isSuccessful} isOpen={isInfoTooltipOpen} onClose={closeAllPopups} />
         </div>
-      </CurrentUserContext.Provider>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 
