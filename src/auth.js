@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.nomoreparties.co';
+export const BASE_URL = 'https://register.nomoreparties.co';
 
 export const register = (password, email) => fetch(`${BASE_URL}/signup`, {
   method: 'POST',
@@ -8,9 +8,9 @@ export const register = (password, email) => fetch(`${BASE_URL}/signup`, {
   },
   body: JSON.stringify({ password, email }),
 })
-  .then((response) => response.json())
-  .then((res) => res)
-  .catch((err) => console.log(err));
+  .then((response) => {return response.json()})
+  .then((res) => {return res});
+
 export const authorize = (password, email) => fetch(`${BASE_URL}/signin`, {
   method: 'POST',
   headers: {
@@ -19,14 +19,14 @@ export const authorize = (password, email) => fetch(`${BASE_URL}/signin`, {
   },
   body: JSON.stringify({ password, email }),
 })
-  .then(((response) => response.json()))
+  .then((response) => {return response.json()})
   .then((data) => {
-    if (data.user) {
-      localStorage.setItem('jwt', data.jwt);
+    if (data.token) {
+      localStorage.setItem('jwt', data.token);
       return data;
     }
-  })
-  .catch((err) => console.log(err));
+  });
+
 
 export const checkToken = (token) => fetch(`${BASE_URL}/users/me`, {
   method: 'GET',
@@ -34,7 +34,7 @@ export const checkToken = (token) => fetch(`${BASE_URL}/users/me`, {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${token}`,
-  },
+  }
 })
   .then((res) => res.json())
   .then((data) => data);

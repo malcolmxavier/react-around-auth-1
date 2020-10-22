@@ -19,10 +19,11 @@ function Login(props) {
         if (res) {
           props.handleLogin(true)
           props.history.push('/')
-        } else {
+        } else{
           props.handleLogin(false)
         }
       })
+      .catch((err) => console.log(err));
   }
   return (
     <>

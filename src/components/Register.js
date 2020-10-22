@@ -17,11 +17,12 @@ function Register(props) {
     auth.register(password, email)
       .then((res) => {
         if (res) {
-          props.history.push('/login');
+          props.history.push('/signin');
         } else {
           console.log('Something went wrong!');
         }
       })
+      .catch((err) => console.log(err));
   };
   return (
     <>
@@ -43,7 +44,7 @@ function Register(props) {
             placeholder="Password"
             onChange={handlePasswordChange}
           />
-          <button className="form__button" type="submit" value="submit">Log in</button>
+          <button className="form__button" type="submit" value="submit">Sign up</button>
           <Link to="/signin" className="form__link">Already a member? Log in here!</Link>
         </form>
       </section>

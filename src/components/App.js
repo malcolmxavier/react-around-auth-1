@@ -13,6 +13,7 @@ import ImagePopup from './ImagePopup';
 import Login from './Login';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip';
+import * as auth from '../auth';
 
 function App() {
   const [isEditAvatarOpen, setIsEditAvatarOpen] = useState(false);
@@ -26,8 +27,18 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isSuccessful, setIsSuccessful] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
-
+  const [userEmail, setUserEmail] = useState('')
   useEffect(() => {
+    if (localStorage.getItem('jwt')) {
+      const jwt = localStorage.getItem('jwt');
+      auth.checkToken(jwt)
+        .then((res) => {
+          console.log(res.data);
+          setUserEmail(res.data.email);
+          setLoggedIn(true);
+        })
+        .catch((err) => console.log(err));
+    }
     api.getUserInfo()
       .then((res) => {
         setCurrentUser(res);
@@ -114,6 +125,15 @@ function App() {
     setIsSuccessful(state)
     setIsInfoTooltipOpen(true)
     setLoggedIn(state)
+    if (localStorage.getItem('jwt')) {
+      const jwt = localStorage.getItem('jwt');
+      auth.checkToken(jwt)
+        .then((res) => {
+          console.log(res.data)
+          setUserEmail(res.data.email)
+        })
+        .catch((err) => console.log(err));
+    }
   }
 
   return (
@@ -134,6 +154,7 @@ function App() {
               <Route exact path="/">
                 {loggedIn ?
                   <Main
+                    userEmail={userEmail}
                     onEditProfile={handleEditProfileClick}
                     onAddPlace={handleAddPlaceClick}
                     onEditAvatar={handleEditAvatarClick}
@@ -147,14 +168,14 @@ function App() {
                     handleCardDelete={handleCardDelete}
                   />
                   : <Redirect to="/signin" />}
-                <Footer />
-                <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfileOpen} onClose={closeAllPopups} />
-                <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarOpen} onClose={closeAllPopups} />
-                <AddPlacePopup onAddPlace={handleAddPlace} isOpen={isAddPlaceOpen} onClose={closeAllPopups} />
-                <ImagePopup isOpen={isImagePopupOpen} name={selectedCardName} link={selectedCardLink} onClose={closeAllPopups} />
-                <InfoTooltip valid={isSuccessful} isOpen={isInfoTooltipOpen} onClose={closeAllPopups} />
               </Route>
             </Switch>
+            <Footer />
+            <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfileOpen} onClose={closeAllPopups} />
+            <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarOpen} onClose={closeAllPopups} />
+            <AddPlacePopup onAddPlace={handleAddPlace} isOpen={isAddPlaceOpen} onClose={closeAllPopups} />
+            <ImagePopup isOpen={isImagePopupOpen} name={selectedCardName} link={selectedCardLink} onClose={closeAllPopups} />
+            <InfoTooltip valid={isSuccessful} isOpen={isInfoTooltipOpen} onClose={closeAllPopups} />
           </div>
         </div>
       </CurrentUserContext.Provider>

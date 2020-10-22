@@ -16,7 +16,7 @@ function Main(props) {
     }
     return (
         <>
-        <Header email={props.email} link="/signin" linkText="Logout" onClick={signOut}/>
+        <Header email={props.userEmail} link="/signin" linkText="Logout" onClick={signOut}/>
             <section className="profile">
                 <div className="profile__info">
                     <div className="profile__picture_overlay">
