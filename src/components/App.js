@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  BrowserRouter, Route, Switch, Redirect
+  Route, Switch, useHistory
 } from 'react-router-dom';
 import Footer from './Footer.js';
 import Main from './Main.js';
@@ -12,6 +12,7 @@ import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';
 import Login from './Login';
 import Register from './Register';
+import ProtectedRoute from './ProtectedRoute';
 import InfoTooltip from './InfoTooltip';
 import * as auth from '../auth';
 
@@ -24,21 +25,13 @@ function App() {
   const [selectedCardName, setSelectedCardName] = useState('');
   const [currentUser, setCurrentUser] = useState('');
   const [cards, setCards] = useState([]);
-  const [loggedIn, setLoggedIn] = useState(false);
   const [isSuccessful, setIsSuccessful] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('')
+  const jwt = localStorage.getItem('jwt');
+  const history = useHistory();
   useEffect(() => {
-    if (localStorage.getItem('jwt')) {
-      const jwt = localStorage.getItem('jwt');
-      auth.checkToken(jwt)
-        .then((res) => {
-          console.log(res.data);
-          setUserEmail(res.data.email);
-          setLoggedIn(true);
-        })
-        .catch((err) => console.log(err));
-    }
     api.getUserInfo()
       .then((res) => {
         setCurrentUser(res);
@@ -48,7 +41,19 @@ function App() {
     api.getCardList()
       .then((res) => setCards(res))
       .catch((err) => console.log(err));
+handleCheckToken()
   }, [cards]);
+
+  function handleCheckToken(){
+    auth.checkToken(jwt)
+    .then((res) => {
+      setUserEmail(res.data.email);
+      setLoggedIn(true);
+    })
+    .then(() => history.push('/'))
+    .catch((err) => console.log(err));
+
+  }
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -126,10 +131,8 @@ function App() {
     setIsInfoTooltipOpen(true)
     setLoggedIn(state)
     if (localStorage.getItem('jwt')) {
-      const jwt = localStorage.getItem('jwt');
       auth.checkToken(jwt)
         .then((res) => {
-          console.log(res.data)
           setUserEmail(res.data.email)
         })
         .catch((err) => console.log(err));
@@ -137,37 +140,32 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
       <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
           <div className="page__content">
 
             <Switch>
+              <ProtectedRoute exact path='/'
+                loggedIn={loggedIn}
+                component={Main}
+                userEmail={userEmail}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onEditAvatar={handleEditAvatarClick}
+                onCardClick={(data) => handleCardClick(data)}
+                onClose={closeAllPopups}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+                cards={cards}
+                handleCardClick={handleCardClick}
+                handleCardLike={handleCardLike}
+                handleCardDelete={handleCardDelete} />
               <Route path="/signin">
                 <Login handleLogin={handleLogin} />
               </Route>
 
               <Route path="/signup">
                 <Register />
-              </Route>
-
-              <Route exact path="/">
-                {loggedIn ?
-                  <Main
-                    userEmail={userEmail}
-                    onEditProfile={handleEditProfileClick}
-                    onAddPlace={handleAddPlaceClick}
-                    onEditAvatar={handleEditAvatarClick}
-                    onCardClick={(data) => handleCardClick(data)}
-                    onClose={closeAllPopups}
-                    onCardLike={handleCardLike}
-                    onCardDelete={handleCardDelete}
-                    cards={cards}
-                    handleCardClick={handleCardClick}
-                    handleCardLike={handleCardLike}
-                    handleCardDelete={handleCardDelete}
-                  />
-                  : <Redirect to="/signin" />}
               </Route>
             </Switch>
             <Footer />
@@ -179,7 +177,6 @@ function App() {
           </div>
         </div>
       </CurrentUserContext.Provider>
-    </BrowserRouter>
   );
 }
 

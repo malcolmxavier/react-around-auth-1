@@ -36,5 +36,5 @@ export const checkToken = (token) => fetch(`${BASE_URL}/users/me`, {
     'Authorization': `Bearer ${token}`,
   }
 })
-  .then((res) => res.json())
-  .then((data) => data);
+  .then((res) => {return res.json()})
+  .then((data) => {return data});

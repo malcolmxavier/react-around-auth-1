@@ -1,6 +1,7 @@
 .page__content{
     max-width: 882px;
     margin: 0 auto;
+    height: 100%;
 }
 
 @media screen and (max-width:882px){
