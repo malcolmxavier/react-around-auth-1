@@ -1,22 +1,15 @@
 import React, { useContext } from 'react';
 import PopupWithForm from './PopupWithForm';
-import {
-  useHistory
-} from 'react-router-dom';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Card from './Card';
 import Header from './Header';
 
 function Main(props) {
     const currentUser = useContext(CurrentUserContext);
-    const history = useHistory();
-    function signOut(){
-      localStorage.removeItem('jwt');
-      history.push('/signin');
-    }
+
     return (
         <>
-        <Header email={props.userEmail} link="/signin" linkText="Logout" onClick={signOut}/>
+        <Header email={props.userEmail} link="/signin" linkText="Logout" onClick={props.signOut}/>
             <section className="profile">
                 <div className="profile__info">
                     <div className="profile__picture_overlay">

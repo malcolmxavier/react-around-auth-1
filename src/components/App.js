@@ -12,9 +12,10 @@ import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';
 import Login from './Login';
 import Register from './Register';
+import Header from './Header';
 import ProtectedRoute from './ProtectedRoute';
 import InfoTooltip from './InfoTooltip';
-import * as auth from '../auth';
+import * as auth from '../utils/auth';
 
 function App() {
   const [isEditAvatarOpen, setIsEditAvatarOpen] = useState(false);
@@ -23,12 +24,12 @@ function App() {
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [selectedCardLink, setSelectedCardLink] = useState('');
   const [selectedCardName, setSelectedCardName] = useState('');
-  const [currentUser, setCurrentUser] = useState('');
+  const [currentUser, setCurrentUser] = useState({ name: "", about: "", avatar: "" });
   const [cards, setCards] = useState([]);
   const [isSuccessful, setIsSuccessful] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [userEmail, setUserEmail] = useState('')
+  const [userEmail, setUserEmail] = useState('');
   const jwt = localStorage.getItem('jwt');
   const history = useHistory();
   useEffect(() => {
@@ -49,7 +50,7 @@ function App() {
       })
       .then(() => history.push('/'))
       .catch((err) => console.log(err));
-  }, [cards]);
+  }, []);
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -62,7 +63,7 @@ function App() {
   }
   function handleCardDelete(deletedCard) {
     api.removeCard(deletedCard._id)
-      .then(cards.filter((card) => card !== deletedCard))
+      .then(() => { cards.filter((card) => card !== deletedCard) })
       .catch((err) => console.log(err));
   }
 
@@ -122,20 +123,40 @@ function App() {
     setIsImagePopupOpen(false);
     setIsInfoTooltipOpen(false);
   };
-  function handleSignup(state) {
-    setIsSuccessful(state)
-    setIsInfoTooltipOpen(true)
-    setLoggedIn(state)
-  }
-  function handleLogin() {
-    if (localStorage.getItem('jwt')) {
-      auth.checkToken(jwt)
-        .then((res) => {
-          setUserEmail(res.data.email)
-        })
-        .catch((err) => console.log(err));
-    }
+  function handleSignup(password, email) {
+    auth.register(password, email)
+      .then((res) => {
+        if (res.error) {
+          setIsSuccessful(false);
+          setIsInfoTooltipOpen(true);
+        } else {
+          setIsSuccessful(true);
+          setIsInfoTooltipOpen(true);
+          history.push('/signin');
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
+  function handleLogin(password, email) {
+    auth.authorize(password, email)
+      .catch((err) => console.log(err));
+    auth.checkToken(jwt)
+      .then((res) => {
+        if (res) {
+          setUserEmail(res.data.email);
+          history.push('/');
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
+
+  function handleSignOut() {
+    localStorage.removeItem('jwt');
+    setLoggedIn(false);
+    setUserEmail('');
+    history.push('/signin');
   }
 
   return (
@@ -145,6 +166,7 @@ function App() {
 
           <Switch>
             <ProtectedRoute exact path='/'
+              signOut={handleSignOut}
               loggedIn={loggedIn}
               component={Main}
               userEmail={userEmail}
@@ -160,14 +182,16 @@ function App() {
               handleCardLike={handleCardLike}
               handleCardDelete={handleCardDelete} />
             <Route path="/signin">
+              <Header link="/signup" linkText="Sign up" />
               <Login handleLogin={handleLogin} />
             </Route>
 
             <Route path="/signup">
+              <Header link="/signin" linkText="Sign In" />
               <Register handleSignup={handleSignup} />
             </Route>
             <Route path="/*">
-              <Redirect to="/signin"/>
+              <Redirect to="/signin" />
             </Route>
           </Switch>
           <Footer />
@@ -179,7 +203,7 @@ function App() {
         </div>
       </div>
     </CurrentUserContext.Provider>
-  );
+  )
 }
 
 export default App;

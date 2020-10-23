@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import Header from './Header';
-import * as auth from '../auth';
 
 function Register(props) {
   const [email, setEmail] = useState('');
@@ -14,21 +12,10 @@ function Register(props) {
   }
   function handleSubmit(e) {
     e.preventDefault();
-    auth.register(password, email)
-      .then((res) => {
-        console.log(res)
-        if(res.error){
-          props.handleSignup(false)
-        } else {
-          props.handleSignup(true)
-          props.history.push('/signin');
-        }
-      })
-      .catch((err) => console.log(err));
-  };
+    props.handleSignup(password, email)
+  }
+
   return (
-    <>
-      <Header link="/signin" linkText="Sign In" />
       <section className="form" >
         <form onSubmit={handleSubmit} className="form__container" name={props.name}>
           <h2 className="form__title">Sign up</h2>
@@ -50,7 +37,6 @@ function Register(props) {
           <Link to="/signin" className="form__link">Already a member? Log in here!</Link>
         </form>
       </section>
-    </>
   )
 }
 export default withRouter(Register);
