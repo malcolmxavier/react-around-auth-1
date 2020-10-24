@@ -30,7 +30,6 @@ function App() {
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('');
-  const jwt = localStorage.getItem('jwt');
   const history = useHistory();
   useEffect(() => {
     api.getUserInfo()
@@ -42,14 +41,16 @@ function App() {
     api.getCardList()
       .then((res) => setCards(res))
       .catch((err) => console.log(err));
-
-    auth.checkToken(jwt)
-      .then((res) => {
-        setUserEmail(res.data.email);
-        setLoggedIn(true);
-      })
-      .then(() => history.push('/'))
-      .catch((err) => console.log(err));
+    if (localStorage.getItem('jwt')) {
+      const jwt = localStorage.getItem('jwt');
+      auth.checkToken(jwt)
+        .then((res) => {
+          setUserEmail(res.data.email);
+          setLoggedIn(true);
+        })
+        .then(() => history.push('/'))
+        .catch((err) => console.log(err));
+    }
   }, []);
 
   function handleCardLike(card) {
@@ -137,19 +138,32 @@ function App() {
       })
       .catch((err) => console.log(err));
   };
+  function handleTokenCheck() {
+    const jwt = localStorage.getItem('jwt')
+    auth.checkToken(jwt)
+      .then((res) => {
+        setUserEmail(res.data.email);
+        setLoggedIn(true);
+      })
+      .then(() => history.push('/'))
+      .catch((err) => {
+        console.log(err);
+        setIsSuccessful(false);
+        setIsInfoTooltipOpen(true);
+      })
+  }
 
   function handleLogin(password, email) {
     auth.authorize(password, email)
-      .catch((err) => console.log(err));
-    auth.checkToken(jwt)
-      .then((res) => {
-        if (res) {
-          setUserEmail(res.data.email);
-          history.push('/');
-        }
+      .then(() => {
+        handleTokenCheck()
       })
-      .catch((err) => console.log(err));
-  }
+      .catch((err) => {
+        console.log(err);
+        setIsSuccessful(false);
+        setIsInfoTooltipOpen(true);
+      })
+  };
 
 
   function handleSignOut() {
