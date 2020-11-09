@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://register.nomoreparties.co';
+export const BASE_URL = 'https://api.jennatoff.students.nomoreparties.site';
 
 export const register = (password, email) => fetch(`${BASE_URL}/signup`, {
   method: 'POST',
@@ -11,7 +11,7 @@ export const register = (password, email) => fetch(`${BASE_URL}/signup`, {
   .then((response) => {return response.json()})
   .then((res) => {return res});
 
-export const authorize = (password, email) => fetch(`${BASE_URL}/signin`, {
+export const authorize = (password, email) => fetch(`${BASE_URL}/login`, {
   method: 'POST',
   headers: {
     'Accept': 'application/json',

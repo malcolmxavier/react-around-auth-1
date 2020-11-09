@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import Footer from './Footer.js';
 import Main from './Main.js';
-import api from '../utils/Api.js';
+import Api from '../utils/Api.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
@@ -30,7 +30,16 @@ function App() {
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('');
+  const [token, setToken] = useState('');
   const history = useHistory();
+  const api = new Api({
+    baseUrl: "https://api.jennatoff.students.nomoreparties.site",
+    headers: {
+        authorization: token,
+        "content-type": "application/json"
+    }
+});
+
   useEffect(() => {
     api.getUserInfo()
       .then((res) => {
@@ -47,6 +56,7 @@ function App() {
         .then((res) => {
           setUserEmail(res.data.email);
           setLoggedIn(true);
+          setToken(jwt);
         })
         .then(() => history.push('/'))
         .catch((err) => console.log(err));
@@ -144,6 +154,7 @@ function App() {
       .then((res) => {
         setUserEmail(res.data.email);
         setLoggedIn(true);
+        setToken(jwt);
       })
       .then(() => history.push('/'))
       .catch((err) => {
